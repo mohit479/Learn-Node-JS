@@ -1,13 +1,21 @@
-const expres =require('express');
+const express = require('express');
+const app = express();
 
-const app =expres(); // sercer instance create karna k lia
+app.use(express.json());
 
-app.get("/",(req ,res)=>{
-    res.send("hello world");
-})
+// ✅ root test (IMPORTANT)
+app.get('/', (req, res) => {
+  res.send('Server is alive');
+  });
 
-app.get("/about",(req,res)=>{
-    res.send("this is about page");
-})
+  // ✅ POST test route
+  app.post('/test', (req, res) => {
+    console.log('POST BODY:', req.body);
+      res.json({ success: true });
+      });
 
-app.listen(3000); // server ko start krne ke liye
+      app.listen(3000, () => {
+        console.log('Server running on port 3000');
+        });
+        
+        
