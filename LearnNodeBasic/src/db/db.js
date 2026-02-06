@@ -6,4 +6,7 @@ async function connectDB(){
     console.log("DB CONNECTED");
 }
 
+// pass 6jbOnvw6OKSXxJSl
+
+
 module.exports =connectDB;
