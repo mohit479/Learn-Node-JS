@@ -11,26 +11,35 @@ const notes=[];
 
 app.get('/',(req,res)=>{
     res.send("hello world");
-})
+})  
 
-app.post('/notes',(req,res)=>{
-    notes.push(req.body);
+ app.post('/notes',async(req,res)=>{
+
+    const data = req.body 
+    await noteModel.create({
+        title :data.title,
+        description: data.description
+    })
+    // notes.push(req.body);
     res.status(201).json({
         message:"note created successflly"
     })
 })
 
-app.get('/notes',(req,res)=>{
+app.get('/notes',async(req,res)=>{
+    const notes = await noteModel.find()
     res.status(200).json({
         message:"notes featched sucessfully",
         notes:notes
     })
 })
 
-app.delete('/notes/:index',(req ,res)=>{
-    const index =req.params.index;
+app.delete('/notes/:id',async(req ,res)=>{
+    const id =req.params.id;
 
-    delete notes[index]
+    await noteModel.findOneAndDelete({
+        _id:id
+    })
 
     res.status(200).json({
         message:"note deleted successfully"
@@ -38,11 +47,15 @@ app.delete('/notes/:index',(req ,res)=>{
 })
 
 
-app.patch('/notes/:index',(req ,res)=>{
-    const index =req.params.index;
+app.patch('/notes/:id',async(req ,res)=>{
+    const id =req.params.id;
     const des= req.body.description;
 
-    notes[index].description= des;
+    await noteModel.findOneAndUpdate({
+        _id:id
+    },{
+        description:des
+    })
 
     res.status(200).json({
         message:"note updated sucessfully"
